@@ -151,4 +151,50 @@
             update_time = now()
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
+    <select id="checkUsername" resultType="int" parameterType="string">
+        SELECT count(1)
+        FROM mmall_user
+        WHERE username = #{username}
+    </select>
+    <select id="checkEmail" resultType="int" parameterType="string">
+        SELECT count(1)
+        FROM mmall_user
+        WHERE email = #{email}
+    </select>
+    <select id="checkEmailByUserId" resultType="int" parameterType="map">
+        SELECT count(1)
+        FROM mmall_user
+        WHERE email = #{email}
+              AND id != #{userId}
+    </select>
+    <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM mmall_user
+        WHERE username = #{username}
+        AND password = #{password}
+    </select>
+    <select id="selectQuestionByUsername" resultType="string" parameterType="string">
+        SELECT question
+        FROM mmall_user
+        WHERE username = #{username}
+    </select>
+    <select id="checkAnswer" resultType="int" parameterType="map"><!--判断逻辑，用select的sql语句select count(1)即可-->
+        SELECT count(1)
+        FROM mmall_user
+        WHERE username = #{username}
+              AND question = #{question}
+              AND answer = #{answer}
+    </select>
+    <update id="updatePassword" parameterType="map">
+        UPDATE mmall_user
+        SET password = #{password}
+        WHERE username = #{username}
+    </update>
+    <select id="checkPassword" resultType="int" parameterType="map">
+        SELECT count(1)
+        FROM mmall_user
+        WHERE password = #{password}
+              AND id = #{userId}
+    </select>
 </mapper>
