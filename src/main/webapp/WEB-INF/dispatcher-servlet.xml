@@ -22,10 +22,10 @@
                 </property>
             </bean>
             <!-- SpringMVC进行自动反序列化用到的配置类
-                 选用的是jackson的一个配置类
+                 选用的是jackson的一个配置类。这样返回值就可以通过@ResponseBody注解将返回值自动序列化成json了
              -->
             <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-                <!--支持的MediaTypes-->
+                <!--支持的MediaTypes，仅支持json格式-->
                 <property name="supportedMediaTypes">
                     <list>
                         <value>application/json;charset=UTF-8</value>
