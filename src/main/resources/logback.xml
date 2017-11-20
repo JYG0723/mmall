@@ -15,10 +15,10 @@
     <appender name="mmall" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<File>d:/mmalllog/mmall.log</File>-->
         <!--项目日志打印到的文件路径-->
-        <File>/developer/apache-tomcat-7.0.73/logs/mmall.log</File>
+        <File>E:/Java/apache-tomcat-7.0.75/logs/mmall.log</File>
         <!-- 通过日期进行rolling(转动) -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/developer/apache-tomcat-7.0.73/logs/mmall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>E:/Java/apache-tomcat-7.0.75/logs/mmall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <!-- 最大的存储历史时期 -->
             <maxHistory>10</maxHistory><!-- 10天 -->
@@ -31,10 +31,10 @@
 
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<File>d:/mmalllog/error.log</File>-->
-        <File>/developer/apache-tomcat-7.0.73/logs/error.log</File>
+        <File>E:/Java/apache-tomcat-7.0.75/logs/error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             // 服务器端运行的时候，随着时间的推移，按天进行rolling。然后自动进行压缩
-            <fileNamePattern>/devsoft/apache-tomcat-7.0.73/logs/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>E:/Java/apache-tomcat-7.0.75/logs/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <!--<fileNamePattern>d:/mmalllog/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>-->
             <append>true</append>
             <maxHistory>10</maxHistory>
@@ -56,7 +56,6 @@
         <appender-ref ref="mmall" />
         <appender-ref ref="console"/>
     </logger>
-
 
 
     <!-- geelynote mybatis log 日志 -->
