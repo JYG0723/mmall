@@ -78,6 +78,7 @@ public class CategoryServiceImpl implements ICategoryService {
      * @param categoryId 本节点id
      * @return
      *///   Controller层参数校验的重要性。倘若categoryId为空，Service会做许多不必要的操作
+    @Override
     public ServerResponse<List<Integer>> seleceCategoryAndChildrenById(Integer categoryId) {
         Set<Category> categorySet = Sets.newHashSet();
         findChildCategory(categorySet, categoryId);
