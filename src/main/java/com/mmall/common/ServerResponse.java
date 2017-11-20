@@ -79,7 +79,7 @@ public class ServerResponse<T> implements Serializable {
     }
 
     // 针对ResponseCode类中各种封装出的错误提供的接口
-    public static <T> ServerResponse<T> createByError(int errorCode,String errorDesc) {
+    public static <T> ServerResponse<T> createByErrorCodeMessage(int errorCode, String errorDesc) {
         return new ServerResponse<T>(errorCode, errorDesc);
     }
 

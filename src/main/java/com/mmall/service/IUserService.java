@@ -3,6 +3,8 @@ package com.mmall.service;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * @作者: Ji YongGuang.
  * @修改时间: 19:28 2017/11/6.
@@ -27,4 +29,7 @@ public interface IUserService {
     ServerResponse<User> updateInformation(User user);
 
     ServerResponse<User> getInformation(Integer userId);
+
+    ServerResponse checkAdmin(User user);
+
 }

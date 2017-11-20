@@ -5,7 +5,6 @@ import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,7 +73,6 @@ public class UserController {
         return iUserService.checkValid(str, type);
     }
 
-
     /**
      * 获取登录简要用户的信息
      *
@@ -84,9 +82,9 @@ public class UserController {
     @RequestMapping(value = "get_user_info.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<User> getUserInfo(HttpSession httpSession) {
-        User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
-        if (user != null) {
-            return ServerResponse.createBySuccess(user);
+        User currentUser = (User) httpSession.getAttribute(Const.CURRENT_USER);
+        if (currentUser != null) {
+            return ServerResponse.createBySuccess(currentUser);
         }
         return ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户的信息");
     }
@@ -127,11 +125,11 @@ public class UserController {
     @RequestMapping(value = "reset_password.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> resetPassword(HttpSession httpSession, String passwordOld, String passwordNew) {
-        User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
+        User currentUser = (User) httpSession.getAttribute(Const.CURRENT_USER);
+        if (currentUser == null) {
             return ServerResponse.createByErrorMessage("当前用户未登录");
         }
-        return iUserService.resetPassword(passwordOld, passwordNew, user);
+        return iUserService.resetPassword(passwordOld, passwordNew, currentUser);
     }
 
     @RequestMapping(value = "update_information.do", method = RequestMethod.POST)
@@ -155,6 +153,7 @@ public class UserController {
 
     /**
      * 获取当前登录用户的详细信息，并强制登录
+     *
      * @param httpSession
      * @return
      */
@@ -163,7 +162,7 @@ public class UserController {
     public ServerResponse<User> getInformation(HttpSession httpSession) {
         User currentUser = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
-            return ServerResponse.createByError(ResponseCode.NEED_LOGIN.getCode(), "当前用户未登录，需要强制登录status=10");
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,请登录");
         }
         return iUserService.getInformation(currentUser.getId());
     }
