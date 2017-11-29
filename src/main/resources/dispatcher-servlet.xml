@@ -10,6 +10,8 @@
 
     <context:component-scan base-package="com.mmall" annotation-config="true"/>
 
+    <!--<mvc:resources mapping="/resource/**" location="/resources/"/>-->
+
     <mvc:annotation-driven>
         <mvc:message-converters>
             <!-- SpringMVC编码的配置 -->
@@ -34,7 +36,6 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-
 
     <!-- 文件上传 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

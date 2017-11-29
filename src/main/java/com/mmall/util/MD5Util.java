@@ -3,7 +3,9 @@ package com.mmall.util;
 import java.security.MessageDigest;
 
 /**
- * Created by geely
+ * @作者: Ji YongGuang.
+ * @修改时间: 19:14 2017/11/09.
+ * @功能描述: 密码加密的MD5的工具类
  */
 public class MD5Util {
 

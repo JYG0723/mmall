@@ -50,14 +50,12 @@
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
         <!--SringMVC的配置文件默认名称是dispatcher-servlet.xml-->
-        <!--
-            <init-param>
-                <param-name>contextConfigLocation</param-name>
-                <param-value>WEB-INF/dispatcher-servlet.xml</param-value>
-            </init-param>
-        -->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:dispatcher-servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
         <!-- 该参数为0或者大于0的时候这个容器在启动的时候就会初始化这个servlet，调用其init方法。这个参数代表优先级，即启动顺序-->
     </servlet>
     <servlet-mapping>

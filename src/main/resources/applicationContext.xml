@@ -16,5 +16,4 @@
     <!-- 把当前的Spring配置文件进行一个分离 -->
     <import resource="applicationContext-datasource.xml"/>
 
-
 </beans>

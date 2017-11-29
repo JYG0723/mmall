@@ -41,7 +41,7 @@ public class CategoryManageController {
         if (currentUser == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
-        if (iUserService.checkAdmin(currentUser).isSuccess()) {
+        if (iUserService.checkAdminRole(currentUser).isSuccess()) {
             //是管理员
             return iCategoryService.addCategory(categoryName, parentId);
         } else {
@@ -60,7 +60,7 @@ public class CategoryManageController {
         if (currentUser == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
-        if (iUserService.checkAdmin(currentUser).isSuccess()) {
+        if (iUserService.checkAdminRole(currentUser).isSuccess()) {
             return iCategoryService.updateCategoryName(categoryId, categoryName);
         } else {
             return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
@@ -78,13 +78,14 @@ public class CategoryManageController {
         if (currentUser == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
-        if (iUserService.checkAdmin(currentUser).isSuccess()) {
+        if (iUserService.checkAdminRole(currentUser).isSuccess()) {
             // 查询子节点的category信息，并且不递归，保持平级
             return iCategoryService.getChildrenParallelCategory(categoryId);
         } else {
             return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
         }
     }
+
 
     @RequestMapping(value = "get_deep_category.do", method = RequestMethod.GET)
     @ResponseBody
@@ -94,7 +95,7 @@ public class CategoryManageController {
         if (currentUser == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
-        if (iUserService.checkAdmin(currentUser).isSuccess()) {
+        if (iUserService.checkAdminRole(currentUser).isSuccess()) {
             // 查询当前结点的id和递归他子节点的id
             return iCategoryService.seleceCategoryAndChildrenById(categoryId);
         }

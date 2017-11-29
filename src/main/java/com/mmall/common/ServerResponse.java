@@ -43,10 +43,10 @@ public class ServerResponse<T> implements Serializable {
         this.data = data;
     }
 
-    // 判断请求成功与否
     @JsonIgnore
     //使之不在json序列化结果当中
     public boolean isSuccess() {
+        // 根据id判断操作成功与否
         return this.status == ResponseCode.SUCCESS.getCode();
     }
 

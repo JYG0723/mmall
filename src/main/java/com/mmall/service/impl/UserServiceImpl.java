@@ -133,6 +133,7 @@ public class UserServiceImpl implements IUserService {
 
             if (rowCount > 0) {
                 return ServerResponse.createBySuccessMessage("密码修改成功");
+
             }
         } else {
             return ServerResponse.createByErrorMessage("token错误，请重新获取重置密码的token");
@@ -197,7 +198,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
-    public ServerResponse checkAdmin(User user) {
+    public ServerResponse checkAdminRole(User user) {
         // 这里不做非空判断如果user传过来为空 会报空指针
         if (user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN) {
             return ServerResponse.createBySuccess();

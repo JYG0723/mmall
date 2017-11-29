@@ -37,8 +37,7 @@ public class UserController {
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession httpSession) {
         ServerResponse<User> serverResponse = iUserService.login(username, password);
-        // Controller 层需要判断一下 Service
-        // 层返回对象的状态，怎么判断最好呢。无非两种状态，成功与否。成功统一，失败不同。并且各类失败信息附带了自己的msg。了解这个即可，我们只需要判断他是否成了即可。其他错误code以及msg信息由前台来关心
+        // Controller 层需要判断一下 Service 返回对象的状态即success或error
         if (serverResponse.isSuccess()) {
             // 有管理员和用户两种，类型较少且明确根本不用描述 偷个懒常量类
             httpSession.setAttribute(Const.CURRENT_USER, serverResponse.getData());
