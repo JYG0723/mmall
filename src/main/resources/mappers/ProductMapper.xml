@@ -179,4 +179,24 @@
             update_time = now()
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
+    <!-- 这样查出来的List没有排序，默认给它一个排序规则 -->
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM mmall_product
+        ORDER BY id ASC
+    </select>
+    <select id="selectByNameAndProductId" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM mmall_product
+        <where>
+            <if test="productName!=null">
+                and productName like #{productName}
+            </if>
+            <if test="productId!=null">
+                and productId = #{productId}
+            </if>
+        </where>
+    </select>
 </mapper>
