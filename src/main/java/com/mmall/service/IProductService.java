@@ -6,15 +6,14 @@ import com.mmall.pojo.Product;
 import com.mmall.vo.ProductDetailVo;
 
 /**
- * @作者: Ji YongGuang.
- * @修改时间: 19:14 2017/11/26.
- * @功能描述:
+ * @author : Ji YongGuang.
+ * @date : 19:14 2017/11/26.
  */
 public interface IProductService {
 
     ServerResponse saveOrUpdateProduct(Product product);
 
-    ServerResponse<String> setSaleStatus(Integer productId, Integer status);
+    ServerResponse setSaleStatus(Integer productId, Integer status);
 
     ServerResponse<ProductDetailVo> manageProductDetail(Integer productId);
 

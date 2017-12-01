@@ -21,10 +21,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @作者: Ji YongGuang.
- * @修改时间: 19:14 2017/11/26.
- * @功能描述:
+ * @author : JiYongGuang
+ * @date : 19:14 2017/11/26.
  */
+@SuppressWarnings("SpringAutowiredFieldsWarningInspection")
 @Service("iProductService")
 public class ProductServiceImpl implements IProductService {
 
@@ -35,7 +35,7 @@ public class ProductServiceImpl implements IProductService {
     private CategoryMapper categoryMapper;
 
     @Override
-    public ServerResponse<String> saveOrUpdateProduct(Product product) {
+    public ServerResponse saveOrUpdateProduct(Product product) {
         if (product != null) {
             // 无论更新还是新增操作这一步都必须执行
             if (StringUtils.isNotBlank(product.getSubImages())) {
@@ -64,7 +64,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public ServerResponse<String> setSaleStatus(Integer productId, Integer status) {
+    public ServerResponse setSaleStatus(Integer productId, Integer status) {
         if (productId != null || status != null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUEMENT.getCode(),
                     ResponseCode.NEED_LOGIN.getDesc());
