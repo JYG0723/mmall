@@ -1,7 +1,7 @@
 package com.mmall.controller.backend;
 
 import com.mmall.common.Const;
-import com.mmall.common.ResponseCode;
+import com.mmall.common.ResponseCodeEnum;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.service.ICategoryService;
@@ -39,7 +39,7 @@ public class CategoryManageController {
                                               @RequestParam(value = "patternId", defaultValue = "0") int parentId) {
         User currentUser = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
+            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
         if (iUserService.checkAdminRole(currentUser).isSuccess()) {
             //是管理员
@@ -58,7 +58,7 @@ public class CategoryManageController {
     public ServerResponse<String> setCategoryName(HttpSession httpSession, Integer categoryId, String categoryName) {
         User currentUser = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
+            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
         if (iUserService.checkAdminRole(currentUser).isSuccess()) {
             return iCategoryService.updateCategoryName(categoryId, categoryName);
@@ -76,7 +76,7 @@ public class CategoryManageController {
             "categoryId", defaultValue = "0") Integer categoryId) {// 未限定返回状态
         User currentUser = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
+            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
         if (iUserService.checkAdminRole(currentUser).isSuccess()) {
             // 查询子节点的category信息，并且不递归，保持平级
@@ -93,7 +93,7 @@ public class CategoryManageController {
             "categoryId", defaultValue = "0") Integer categoryId) {
         User currentUser = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
+            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
         if (iUserService.checkAdminRole(currentUser).isSuccess()) {
             // 查询当前结点的id和递归他子节点的id
