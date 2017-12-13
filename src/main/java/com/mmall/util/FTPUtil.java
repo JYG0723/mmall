@@ -50,9 +50,10 @@ public class FTPUtil {
      * 文件上传的具体方法
      * <p/>
      * 拆出来一个封装，上传的具体逻辑在这个方法中
+     *
      * @param remotePath 远程路径
-     * @param fileList 文件集合
-     * @return 文件上传操作的执行结果
+     * @param fileList   文件集合
+     * @return 文件上传操作的执行结果 true/false
      * @throws IOException
      */
     private boolean uploadFile(String remotePath, List<File> fileList) throws IOException {
@@ -65,17 +66,17 @@ public class FTPUtil {
                 // 首先修改工作目录,需不需要切换当前工作文件夹位置，如果remotePath = null，就切换不了了。默认上传到FTP服务器文件夹下
                 // 这里传过来的是img，那么就是上传到了FTP服务器文件夹下的img文件夹下。
                 ftpClient.changeWorkingDirectory(remotePath);
-                // 设置缓冲区
+                // 设置缓冲区 1024(Byte) = 1KB
                 ftpClient.setBufferSize(1024);
                 // 控制连接的新字符编码
                 ftpClient.setControlEncoding("UTF-8");
-                // 设置文件类型,二进制文件类型。这样会防止一些乱码的问题
+                // 设置上传到FTP服务器的文件类型,二进制文件类型。这样会防止一些乱码的问题
                 ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);// 看看上传的文件长啥样
                 // 开启本地被动模式，FTP服务器上配置的是被动模式，并对外提供了服务的被动端口范围
                 ftpClient.enterLocalPassiveMode();
                 for (File fileItem : fileList) {
                     fis = new FileInputStream(fileItem);
-                    // 存储文件,{文件名},{File流}
+                    // 往FTP服务器上存储文件,{文件名},{File流}
                     ftpClient.storeFile(fileItem.getName(), fis);
                 }
             } catch (IOException e) {
@@ -94,10 +95,11 @@ public class FTPUtil {
      * 链接FTP服务器
      * <p/>
      * 将连接FTP服务器的功能拆分出来
-     * @param ip ftp_ip
-     * @param port ftp_port
+     *
+     * @param ip       ftp_ip
+     * @param port     ftp_port
      * @param username ftp_username
-     * @param pwd ftp_password
+     * @param pwd      ftp_password
      * @return 连接操作的执行结果
      */
     private boolean connectServer(String ip, int port, String username, String pwd) {
@@ -183,4 +185,5 @@ public class FTPUtil {
     public void setFtpClient(FTPClient ftpClient) {
         this.ftpClient = ftpClient;
     }
+
 }
