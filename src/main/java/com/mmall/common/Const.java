@@ -1,9 +1,13 @@
 package com.mmall.common;
 
+import com.google.common.collect.Sets;
+
+import java.util.Set;
+
 /**
  * @作者: Ji YongGuang.
  * @修改时间: 14:53 2017/11/9.
- * @功能描述: 常量管理类,final 避免被继承，private构造
+ * @功能描述: 常量管理类, final 避免被继承，private构造
  */
 public final class Const {
 
@@ -21,5 +25,29 @@ public final class Const {
     public interface Role {
         int ROLE_CUSTOMER = 0; // 普通用户
         int ROLE_ADMIN = 1; // 管理员
+    }
+
+    public interface ProductListOrderBy {
+        Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_asc", "price_desc");
+    }
+
+    public enum ProductStatusEnum {
+        ON_SALE(1, "在线");
+
+        private int code;
+        private String value;
+
+        ProductStatusEnum(int code, String value) {
+            this.code = code;
+            this.value = value;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 }
