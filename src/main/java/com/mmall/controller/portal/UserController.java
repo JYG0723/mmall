@@ -1,7 +1,7 @@
 package com.mmall.controller.portal;
 
 import com.mmall.common.Const;
-import com.mmall.common.ResponseCode;
+import com.mmall.common.ResponseCodeEnum;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
@@ -161,7 +161,7 @@ public class UserController {
     public ServerResponse<User> getInformation(HttpSession httpSession) {
         User currentUser = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,请登录");
+            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(),"用户未登录,请登录");
         }
         return iUserService.getInformation(currentUser.getId());
     }
