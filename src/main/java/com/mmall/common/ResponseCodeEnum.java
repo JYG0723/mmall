@@ -5,7 +5,7 @@ package com.mmall.common;
  * @修改时间: 19:35 2017/11/6.
  * @功能描述: 响应编码的枚举类，方便将所有错误码常量组织起来统一管理
  */
-public enum ResponseCode {
+public enum ResponseCodeEnum {
 
     // 通用成功，错误码
     SUCCESS(0, "SUCCESS"),
@@ -17,7 +17,7 @@ public enum ResponseCode {
     private final int code;
     private final String desc;
 
-    private ResponseCode(int code, String desc) {
+    private ResponseCodeEnum(int code, String desc) {
         this.code = code;
         this.desc = desc;
     }
