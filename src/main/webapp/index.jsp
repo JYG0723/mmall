@@ -9,8 +9,17 @@
 <html>
 <head>
     <title>Welcome</title>
-</head>1
+</head>
 <body>
-    Hello World!
+<h1>SpringMVC文件上传</h1>
+<form name="springmvc" action="/manage/product/upload.do" method="post" enctype="multipart/form-data">
+    <input type="file" name="upload_file">
+    <input type="submit" name="springmvc上传文件">
+</form>
+<h1>富文本图片上传</h1>
+<form name="springmvc" action="/manage/product/richtext_img_upload.do" method="post" enctype="multipart/form-data">
+    <input type="file" name="upload_file">
+    <input type="submit" name="富文本图片上传">
+</form>
 </body>
 </html>
