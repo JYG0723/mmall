@@ -13,7 +13,7 @@
     <!-- aop的一个配置 -->
     <aop:aspectj-autoproxy/>
 
-    <!-- 把当前的Spring配置文件进行一个分离 -->
+    <!-- 把Spring管理的各功能模块的配置文件分离 -->
     <import resource="applicationContext-datasource.xml"/>
 
 </beans>

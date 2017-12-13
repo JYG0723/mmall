@@ -76,7 +76,6 @@
                 </bean>
             </array>
         </property>
-
     </bean>
 
     <!-- mybatis的一个扫描，会扫描Dao层 -->

@@ -42,7 +42,7 @@
         <!-- 单位字节 -->
         <property name="maxUploadSize" value="10485760"/> <!-- 10m -->
         <!-- 在内存中最大的size.上传文件的过程中会用到的内存块大小 -->
-        <property name="maxInMemorySize" value="4096"/>
+        <property name="maxInMemorySize" value="4096"/><!-- 4KB -->
         <property name="defaultEncoding" value="UTF-8"></property>
     </bean>
 

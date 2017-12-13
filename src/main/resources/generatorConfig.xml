@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
     <!--导入属性配置-->
-    <properties resource="datasource.properties"></properties>
+    <properties resource="datasource.properties"/>
 
     <context id="default" targetRuntime="MyBatis3">
 
