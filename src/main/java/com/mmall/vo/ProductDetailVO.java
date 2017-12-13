@@ -3,11 +3,11 @@ package com.mmall.vo;
 import java.math.BigDecimal;
 
 /**
- * @作者: Ji YongGuang.
- * @修改时间: 23:17 2017/11/26.
- * @功能描述:
+ * @author : Ji YongGuang.
+ * @date : 23:17 2017/11/26.
+ * @desc:
  */
-public class ProductDetailVo {
+public class ProductDetailVO {
 
     private Integer id;
     // 分类id

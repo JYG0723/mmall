@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  * @修改时间: 21:16 2017/11/28.
  * @功能描述:
  */
-public class ProductListVo {
+public class ProductListVO {
 
     private Integer id;
     private Integer categoryId;

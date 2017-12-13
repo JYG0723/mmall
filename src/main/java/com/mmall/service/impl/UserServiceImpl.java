@@ -42,7 +42,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ServerResponse<String> register(User user) {
+    public ServerResponse register(User user) {
         int resultCount = userMapper.checkUsername(user.getUsername());
         if (resultCount > 0) {
             return ServerResponse.createByErrorMessage("用户名已存在");
@@ -63,7 +63,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ServerResponse<String> checkValid(String str, String type) {
+    public ServerResponse checkValid(String str, String type) {
         if (StringUtils.isNotBlank(type)) {
             // 不为空开始校验
             if (type.equals(Const.USERNAME)) {
@@ -85,7 +85,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ServerResponse<String> selectQuestion(String username) {
+    public ServerResponse selectQuestion(String username) {
         ServerResponse validResponse = this.checkValid(username, Const.USERNAME);
         if (validResponse.isSuccess()) {
             return ServerResponse.createByErrorMessage("用户名不存在");
@@ -99,7 +99,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ServerResponse<String> checkAnswer(String username, String question, String answer) {
+    public ServerResponse checkAnswer(String username, String question, String answer) {
         int resultCount = userMapper.checkAnswer(username, question, answer);
         if (resultCount > 0) {
             // 标识唯一用户
@@ -111,7 +111,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
+    public ServerResponse forgetResetPassword(String username, String passwordNew, String forgetToken) {
         if (StringUtils.isBlank(forgetToken)) {
             return ServerResponse.createByErrorMessage("参数错误,token需要传递");
         }
@@ -142,7 +142,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user) {
+    public ServerResponse resetPassword(String passwordOld, String passwordNew, User user) {
         // 小心漏旧密码加密校验
         int resultCount = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld), user.getId());
         if (resultCount == 0) {
