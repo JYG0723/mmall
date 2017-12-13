@@ -3,7 +3,7 @@ package com.mmall.controller.backend;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import com.mmall.common.Const;
-import com.mmall.common.ResponseCode;
+import com.mmall.common.ResponseCodeEnum;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.Product;
 import com.mmall.pojo.User;
@@ -11,7 +11,8 @@ import com.mmall.service.IFileService;
 import com.mmall.service.IProductService;
 import com.mmall.service.IUserService;
 import com.mmall.util.PropertiesUtil;
-import com.mmall.vo.ProductDetailVo;
+import com.mmall.vo.ProductDetailVO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
@@ -44,7 +46,7 @@ public class ProductManageController {
     /**
      * 新增商品
      *
-     * @param httpSession
+     * @param httpSession session
      * @param product     商品实体
      * @return 高复用响应对象
      */
@@ -53,7 +55,7 @@ public class ProductManageController {
     public ServerResponse productSave(HttpSession httpSession, Product product) {
         User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录管理员");
+            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(), "用户未登录，请登录管理员");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
             return iProductService.saveOrUpdateProduct(product);
@@ -65,17 +67,17 @@ public class ProductManageController {
     /**
      * 修改产品状态
      *
-     * @param httpSession
+     * @param httpSession session
      * @param productId   产品id
      * @param status      要修改的状态
-     * @return
+     * @return 高复用响应对象
      */
     @RequestMapping(value = "set_sale_status.do")
     @ResponseBody
     public ServerResponse setSaleStatus(HttpSession httpSession, Integer productId, Integer status) {
         User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录管理员");
+            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(), "用户未登录，请登录管理员");
         }
         // 如果是继续操作，如果不是跳出
         if (iUserService.checkAdminRole(user).isSuccess()) {
@@ -88,16 +90,16 @@ public class ProductManageController {
     /**
      * 产品详情
      *
-     * @param httpSession
+     * @param httpSession session
      * @param productId   产品id
      * @return T为ProductDetailVo的高复用对象
      */
     @RequestMapping(value = "detail.do")
     @ResponseBody
-    public ServerResponse<ProductDetailVo> getDetail(HttpSession httpSession, Integer productId) {
+    public ServerResponse<ProductDetailVO> getDetail(HttpSession httpSession, Integer productId) {
         User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录管理员");
+            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(), "用户未登录，请登录管理员");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
             return iProductService.manageProductDetail(productId);
@@ -111,7 +113,7 @@ public class ProductManageController {
      * 用到了分页功能，引入了github上分页功能的开源技术包。
      * 里面通过aop的方式对查询的sql语句进行了修改
      *
-     * @param httpSession
+     * @param httpSession session
      * @return PageHelper封装好的携带分页结果的PageInfo对象
      */
     @RequestMapping(value = "list.do")
@@ -121,7 +123,7 @@ public class ProductManageController {
                                             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录管理员");
+            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(), "用户未登录，请登录管理员");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
             // limit 几个 offset 从第几个开始
@@ -134,7 +136,7 @@ public class ProductManageController {
     /**
      * 查找商品
      *
-     * @param httpSession
+     * @param httpSession session
      * @param productName 商品的名称
      * @param productId   商品的id
      * @param pageNum     第几页
@@ -149,7 +151,7 @@ public class ProductManageController {
                                                           pageSize) {
         User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录管理员");
+            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(), "用户未登录，请登录管理员");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
             // 根据商品的名称或者id查询商品
@@ -164,28 +166,90 @@ public class ProductManageController {
      * <p/>
      * 该功能需要配合dispatcher-servlet.xml文件中配置的multipartResolver<bean>使用
      *
-     * @param httpSession
+     * @param httpSession   session
      * @param multipartFile 上传的文件
-     * @param httpServletRequest
-     * @return
+     * @return 上产文件在服务器的uri以及url
      */
     @RequestMapping(value = "upload.do")
     @ResponseBody
-    public ServerResponse<Map> upload(HttpSession httpSession, MultipartFile multipartFile, HttpServletRequest
-            httpServletRequest) {
-        // 这个路径上传完之后会创建到 发布的webapp目录下，和WEB-INF同级
-        // 创建文件夹这种操作不应该依赖于业务。应该通过代码来创建
-        String path = httpServletRequest.getServletContext().getRealPath("upload");
-        String targetFileName = iFileService.upload(multipartFile, path);
-        String url = PropertiesUtil.getProperty("ftp.server.http.prefix" + targetFileName);
+    public ServerResponse<Map<String, String>> upload(HttpSession httpSession, @RequestParam(value = "upload_file",
+            required = false) MultipartFile multipartFile, HttpServletRequest httpServletRequest) {
+        User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(),
+                    "用户未登录，请登录管理员");
+        }
+        if (iUserService.checkAdminRole(user).isSuccess()) {
+            // 这个路径上传完之后会创建到 发布的webapp目录下，和WEB-INF同级
+            // 创建文件夹这种操作不应该依赖于业务(手动创建)。应该通过代码来创建
+            // getRealPath 返回str所指文件的绝对路径。只要工程中有该文件，就会检索到
+            String path = httpServletRequest.getSession().getServletContext().getRealPath("upload");
 
-        Map fileMap = Maps.newHashMap();
-        fileMap.put("uri", targetFileName);
-        fileMap.put("url", url);
+            System.out.println("文件上传到的文件夹:" + path);
+            // targetFileName 服务器上真实存在的文件名
+            String targetFileName = iFileService.upload(multipartFile, path);
+            String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
+            System.out.println("文件的外链:" + url);
 
-        // 打印出来是啥
-        System.out.println("上传文件返回的目标文件名:", targetFileName);
-        System.out.println("上传的路径", path);
-        return ServerResponse.createBySuccess(fileMap);
+            Map<String, String> fileMap = Maps.newHashMap();
+            fileMap.put("uri", targetFileName);
+            fileMap.put("url", url);
+            return ServerResponse.createBySuccess(fileMap);
+        } else {
+            return ServerResponse.createByErrorMessage("无权限操作");
+        }
     }
+
+    /**
+     * 富文本图片的上传
+     *
+     * @param httpSession        session
+     * @param multipartFile      上传的文件
+     * @param httpServletRequest request
+     * @return simditor规定的map接口
+     */
+    @RequestMapping(value = "richtext_img_upload.do")
+    @ResponseBody
+    public Map richtextImgUpload(HttpSession httpSession, @RequestParam(value = "upload_file", required = false)
+            MultipartFile multipartFile, HttpServletRequest httpServletRequest,
+                                 HttpServletResponse httpServletResponse) {
+        Map resultMap = Maps.newHashMap();
+        User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            resultMap.put("success", false);
+            resultMap.put("msg", "用户未登录，请登录管理员");
+            return resultMap;
+        }
+        // 富文本中对于返回值有自己的要求，我们使用的是simditor所以按照simditor要求的返回。
+        // 参考 http://simditor.tower.im/docs/doc-config.html
+        /*{
+            "success": true/false,
+                "msg": "error message", # optional
+            "file_path": "[real file path]"
+        }*/
+        if (iUserService.checkAdminRole(user).isSuccess()) {
+            // 这个路径上传完之后会创建到 发布的webapp目录下，和WEB-INF同级
+            // 创建文件夹这种操作不应该依赖于业务(手动创建)。应该通过代码来创建
+            String path = httpServletRequest.getServletContext().getRealPath("upload");
+            String targetFileName = iFileService.upload(multipartFile, path);
+            if (StringUtils.isBlank(targetFileName)) {
+                resultMap.put("success", false);
+                resultMap.put("msg", "上传失败");
+                return resultMap;
+            }
+            String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
+            resultMap.put("success", true);
+            resultMap.put("msg", "上传成功");
+            resultMap.put("file_path", url);
+            // simditor要求后端上传成功之后返回的head值
+            httpServletResponse.addHeader("Access-Control-Allow-Headers", "X-File-Name");
+            return resultMap;
+        } else {
+            resultMap.put("success", false);
+            resultMap.put("msg", "无权限操作");
+            return resultMap;
+        }
+    }
+
+
 }
