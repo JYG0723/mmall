@@ -47,35 +47,35 @@ public class ServerResponse<T> implements Serializable {
     //使之不在json序列化结果当中
     public boolean isSuccess() {
         // 根据id判断操作成功与否
-        return this.status == ResponseCode.SUCCESS.getCode();
+        return this.status == ResponseCodeEnum.SUCCESS.getCode();
     }
 
     // 请求成功只返回状态码用于给前段判断
     public static <T> ServerResponse<T> createBySuccess() {
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode());
+        return new ServerResponse<T>(ResponseCodeEnum.SUCCESS.getCode());
     }
 
     public static <T> ServerResponse<T> createBySuccess(T data) {
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), data);
+        return new ServerResponse<T>(ResponseCodeEnum.SUCCESS.getCode(), data);
     }
 
     // 请求成功但仍旧需要返回一个文本，供前端提示使用
     public static <T> ServerResponse<T> createBySuccessMessage(String msg) {
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), msg);
+        return new ServerResponse<T>(ResponseCodeEnum.SUCCESS.getCode(), msg);
     }
 
     public static <T> ServerResponse<T> createBySuccess(String msg, T data) {
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), msg, data);
+        return new ServerResponse<T>(ResponseCodeEnum.SUCCESS.getCode(), msg, data);
     }
 
     // 公共错误，比如404 不用描述，直接跳转404页面
     public static <T> ServerResponse<T> createByError() {
-        return new ServerResponse<T>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getDesc());
+        return new ServerResponse<T>(ResponseCodeEnum.ERROR.getCode(), ResponseCodeEnum.ERROR.getDesc());
     }
 
     // 需要提示，比如注册用户，提示用户已经存在
     public static <T> ServerResponse<T> createByErrorMessage(String errorDesc) {
-        return new ServerResponse<T>(ResponseCode.ERROR.getCode(), errorDesc);
+        return new ServerResponse<T>(ResponseCodeEnum.ERROR.getCode(), errorDesc);
     }
 
     // 针对ResponseCode类中各种封装出的错误提供的接口
