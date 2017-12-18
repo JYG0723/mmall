@@ -51,4 +51,12 @@ public class TokenCache {
         return null;
     }
 
+    /**
+     * 一次成功修改密码之后，使该token失效
+     * @param key
+     */
+    public static void removeKey(String key) {
+        localCache.invalidate(key);
+    }
+
 }
