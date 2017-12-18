@@ -7,6 +7,9 @@
     <!--导入属性配置-->
     <properties resource="datasource.properties"/>
 
+    <!--指定特定数据库的jdbc驱动jar包的位置-->
+    <!--<classPathEntry location="${db.driverLocation}"/>-->
+
     <context id="default" targetRuntime="MyBatis3">
 
         <!-- optional，旨在创建class时，对注释进行控制 -->

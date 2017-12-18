@@ -147,7 +147,7 @@ public class ProductServiceImpl implements IProductService {
         PageHelper.startPage(pageNum, pageSize);
         // List中不需要Product中这么详细的信息。毕竟我们不是需要detail只是一个list
         // 我们在执行sql的时候会被aop进行拦截，然后在原来的sql语句的基础上，添加上分页的语句 limit offset
-        List<Product> productList = productMapper.selectList();
+        List<Product> productList = productMapper.selectList(); // productList 是 Page 类型
 
         List<ProductListVO> productListVoList = Lists.newArrayList();
         for (Product productItem : productList) {
@@ -206,7 +206,7 @@ public class ProductServiceImpl implements IProductService {
             return ServerResponse.createByErrorMessage("商品不存在");
         }
         if (product.getStatus() != Const.ProductStatusEnum.ON_SALE.getCode()) {
-            return ServerResponse.createByErrorMessage("商品已下载或删除");
+            return ServerResponse.createByErrorMessage("商品已下架或删除");
         }
         ProductDetailVO productDetailVO = assembleProductDeatilVO(product);
         return ServerResponse.createBySuccess(productDetailVO);

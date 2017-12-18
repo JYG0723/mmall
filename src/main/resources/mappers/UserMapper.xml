@@ -151,17 +151,17 @@
             update_time = now()
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
-    <select id="checkUsername" resultType="int" parameterType="string">
+    <select id="checkUsername" resultType="java.lang.Integer" parameterType="string">
         SELECT count(1)
         FROM mmall_user
         WHERE username = #{username}
     </select>
-    <select id="checkEmail" resultType="int" parameterType="string">
+    <select id="checkEmail" resultType="java.lang.Integer" parameterType="string">
         SELECT count(1)
         FROM mmall_user
         WHERE email = #{email}
     </select>
-    <select id="checkEmailByUserId" resultType="int" parameterType="map">
+    <select id="checkEmailByUserId" resultType="java.lang.Integer" parameterType="map">
         SELECT count(1)
         FROM mmall_user
         WHERE email = #{email}
@@ -174,12 +174,12 @@
         WHERE username = #{username}
         AND password = #{password}
     </select>
-    <select id="selectQuestionByUsername" resultType="string" parameterType="string">
+    <select id="selectQuestionByUsername" resultType="java.lang.String" parameterType="string">
         SELECT question
         FROM mmall_user
         WHERE username = #{username}
     </select>
-    <select id="checkAnswer" resultType="int" parameterType="map"><!--判断逻辑，用select的sql语句select count(1)即可-->
+    <select id="checkAnswer" resultType="java.lang.Integer" parameterType="map"><!--判断逻辑，用select的sql语句select count(1)即可-->
         SELECT count(1)
         FROM mmall_user
         WHERE username = #{username}
@@ -191,7 +191,7 @@
         SET password = #{password}
         WHERE username = #{username}
     </update>
-    <select id="checkPassword" resultType="int" parameterType="map">
+    <select id="checkPassword" resultType="java.lang.Integer" parameterType="map">
         SELECT count(1)
         FROM mmall_user
         WHERE password = #{password}

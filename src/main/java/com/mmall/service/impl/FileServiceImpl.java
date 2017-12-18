@@ -46,7 +46,8 @@ public class FileServiceImpl implements IFileService {
         if (!fileDir.exists()) {// 第一次进来，这么目录不存就创建该目录
             // 对于该路径，赋予可写的权限
             fileDir.setWritable(true);
-            // mkdirs 会把该文件所在的绝对路径全部传上去，比如传的是D:\\image\\123.jpg”如果没有image文件夹则会创建一个文件夹出来，然                  后将123.jpg上传上去，而mkdir只会传123.jpg。如果image文件夹不存在，那么就会报错
+            // mkdirs 会把该文件所在的绝对路径全部传上去，比如传的是D:\\image\\123.jpg”如果没有image文件夹则会创建一个文件夹出来，然
+            // 后将123.jpg上传上去，而mkdir只会传123.jpg。如果image文件夹不存在，那么就会报错
             fileDir.mkdirs();
         }
 
