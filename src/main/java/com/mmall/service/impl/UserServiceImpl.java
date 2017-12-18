@@ -132,8 +132,8 @@ public class UserServiceImpl implements IUserService {
             int rowCount = userMapper.updatePassword(username, md5Password);
 
             if (rowCount > 0) {
+                TokenCache.removeKey(TokenCache.TOKEN_PREFIX + username);
                 return ServerResponse.createBySuccessMessage("密码修改成功");
-
             }
         } else {
             return ServerResponse.createByErrorMessage("token错误，请重新获取重置密码的token");
