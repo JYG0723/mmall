@@ -116,4 +116,50 @@
             update_time = now()
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
+    <select id="selectCartByUserIdProductId" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM mmall_cart
+        WHERE user_id = #{userId}
+        AND product_id = #{productId}
+    </select>
+    <select id="selectCartByUserId" resultMap="BaseResultMap" parameterType="int">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM mmall_cart
+        WHERE user_id = #{userId}
+    </select>
+    <select id="selectCartProductCheckedStatusByUserId" resultType="java.lang.Integer" parameterType="int">
+        SELECT count(1)
+        FROM mmall_cart
+        WHERE checked = 0
+              AND user_id = #{userId}
+    </select>
+    <delete id="deleteCartByUserIdProductIds" parameterType="map">
+        DELETE
+        FROM mmall_cart
+        WHERE user_id = #{userId}
+        <if test="productIds != null">
+            AND product_id in
+            <foreach collection="productIds" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+    <update id="checkedOrUncheckedProduct" parameterType="map">
+        UPDATE
+        mmall_cart
+        SET checked = #{checked},
+        update_time = now()
+        WHERE user_id = #{userId}
+        <if test="productId != null">
+            AND product_id = #{productId}
+        </if>
+    </update>
+    <!-- IFNULL Mybatis的内置函数，如果sql语句正常查询没有查到，返回的结果是NULL的话，会用0进行替换，返回0-->
+    <select id="getCartProductCount" resultType="int" parameterType="int">
+        SELECT IFNULL(sum(quantity), 0) AS count
+        FROM mmall_cart
+        WHERE user_id = #{userId}
+    </select>
 </mapper>
