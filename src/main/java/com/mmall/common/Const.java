@@ -50,4 +50,12 @@ public final class Const {
             return value;
         }
     }
+
+    public interface Cart {
+        int CHECKED = 1;// 购物车中该商品选中状态
+        int UN_CHECKED = 0;// 购物车中该商品未选中状态
+
+        String LIMIT_COUNT_FAIL = "LIMIT_COUNT_FAIL";
+        String LIMIT_COUNT_SUCCESS = "LIMIT_COUNT_SUCCESS";
+    }
 }
