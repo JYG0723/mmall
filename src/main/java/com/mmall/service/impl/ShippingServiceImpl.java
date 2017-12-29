@@ -10,8 +10,6 @@ import com.mmall.service.IShippingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.plaf.SpinnerUI;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +18,7 @@ import java.util.Map;
  * @date: 18:13 2017/12/15.
  */
 @Service(value = "iShippingService")
-public class ShippingService implements IShippingService {
+public class ShippingServiceImpl implements IShippingService {
 
     @Autowired
     private ShippingMapper shippingMapper;
