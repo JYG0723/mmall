@@ -3,7 +3,6 @@ package com.mmall.common;
 /**
  * @作者: Ji YongGuang.
  * @修改时间: 19:35 2017/11/6.
- * @功能描述: 响应编码的枚举类，方便将所有错误码常量组织起来统一管理
  */
 public enum ResponseCodeEnum {
 
