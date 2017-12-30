@@ -9,9 +9,9 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 
 /**
- * @作者: Ji YongGuang.
- * @修改时间: 19:14 2017/11/27.
- * @功能描述: 读取配置文件的工具类
+ * @author Ji YongGuang.
+ * @date 19:14 2017/11/27.
+ * 读取配置文件的工具类，如果要读取多properties文件可参考Alipay的Configs类进行优化
  */
 public class PropertiesUtil {
 

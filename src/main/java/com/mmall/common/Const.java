@@ -5,9 +5,9 @@ import com.google.common.collect.Sets;
 import java.util.Set;
 
 /**
- * @作者: Ji YongGuang.
- * @修改时间: 14:53 2017/11/9.
- * @功能描述: 常量管理类, final 避免被继承，private构造
+ * @author Ji YongGuang.
+ * @date 14:53 2017/11/9.
+ * 常量管理类, final 避免被继承，private构造
  */
 public final class Const {
 
