@@ -1,1 +1,1 @@
-## mmal_leadring I will test Git `merge` & `rebase`
+## mmal_leadring I will test Git `rebase`
