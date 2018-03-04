@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 
 /**
- * @作者: Ji YongGuang.
- * @修改时间: 18:26 2017/11/27.
- * @功能描述: 时间转换工具类。使用了jodaTime开源包来做
+ * @author Ji YongGuang.
+ * @time 18:26 2017/11/27.
+ * 时间转换工具类。使用了jodaTime开源包来做
  */
 public class DateTimeUtil {
 
@@ -27,8 +27,8 @@ public class DateTimeUtil {
         DateTime dateTime = dateTimeFormatter.parseDateTime(dateTimeStr);
         // 根据dateTime然后初始化一个含有时间dateTimeStr的Date
         return dateTime.toDate();
-    }
 
+}
     public static String dateToStr(Date date, String formatStr) {
         if (date == null) {
             return StringUtils.EMPTY;
