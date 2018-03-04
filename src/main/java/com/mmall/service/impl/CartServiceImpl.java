@@ -17,7 +17,6 @@ import com.mmall.vo.CartVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -53,6 +52,15 @@ public class CartServiceImpl implements ICartService {
                 // 这里商品第一次添加到购物车的时候可能出现Quantity数量大于Product的实际Stock的。所以展示CartVO的时候需要进行判断
                 cartItem.setQuantity(count);
                 // 新加入购物车的商品已经默认是选中状态
+
+
+
+
+
+
+
+
+
                 cartItem.setChecked(Const.Cart.CHECKED);
                 cartMapper.insert(cartItem);
             } else {// 如果该商品不存在

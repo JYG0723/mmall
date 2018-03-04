@@ -46,7 +46,7 @@ public class ProductServiceImpl implements IProductService {
         if (product != null) {
             // 无论更新还是新增操作这一步都必须执行
             if (StringUtils.isNotBlank(product.getSubImages())) {
-                String[] subImageArray = product.getSubImages().split(",");
+                String[] subImageArray = product.getSubImages().split(",");// 和前台约定
                 // 子图数大于1才需要判断
                 if (subImageArray.length > 0) {
                     product.setMainImage(subImageArray[0]);
@@ -54,7 +54,7 @@ public class ProductServiceImpl implements IProductService {
             }
 
             // 如果id不为空 说明该商品已然存在在数据库中 那么必然是更新操作
-            if (product.getId() != null) {
+            if (product.getId() != null) {// 和前台的约定这个id必须带上
                 int rowCount = productMapper.updateByPrimaryKey(product);
                 if (rowCount > 0) {
                     return ServerResponse.createBySuccessMessage("更新产品成功");
@@ -62,7 +62,7 @@ public class ProductServiceImpl implements IProductService {
             } else {
                 int rowCount = productMapper.insert(product);
                 if (rowCount > 0) {
-                    return ServerResponse.createByErrorMessage("新增产品成功");
+                    return ServerResponse.createBySuccessMessage("新增产品成功");
                 }
                 return ServerResponse.createByErrorMessage("新增产品失败");
             }

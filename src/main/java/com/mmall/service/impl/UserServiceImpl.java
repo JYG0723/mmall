@@ -52,7 +52,7 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createByErrorMessage("email已存在");
         }
 
-        user.setRole(Const.Role.ROLE_CUSTOMER);
+        user.setRole(Const.Role.ROLE_CUSTOMER);// 可见管理员只能有一个。还是硬性操作数据库所得
         // md5 加密
         user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
         resultCount = userMapper.insert(user);
@@ -149,6 +149,7 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createByErrorMessage("旧密码错误");
         }
         String md5Password = MD5Util.MD5EncodeUtf8(passwordNew);
+        user.setPassword(md5Password);
         int updateCount = userMapper.updateByPrimaryKeySelective(user);
         if (updateCount > 0) {
             return ServerResponse.createBySuccessMessage("密码修改成功");

@@ -23,7 +23,6 @@ public class PropertiesUtil {
 
     // 因为tomcat启动的时候就要读取到配置文件。所以应该用到静态块来处理这类问题。
     // 静态代码块只会在类被加载的时候执行一次。一般用它初始化静态变量，比如声明的全局静态变量props
-    // 当Java的ClassLoader加载到PropertiesUtil这个类的时候，这个静态块就会被先执行
     static {
         String fileName = "mmall.properties";
         props = new Properties();
