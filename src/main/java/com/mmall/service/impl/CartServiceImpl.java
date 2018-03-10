@@ -45,22 +45,13 @@ public class CartServiceImpl implements ICartService {
         Cart cart = cartMapper.selectCartByUserIdProductId(userId, productId);
         if (cart == null) {// 购物车中还没有加入该商品
             Product product = productMapper.selectByPrimaryKey(productId);
-            if (product != null && product.getStatus().intValue() == 1) {
+            if (product != null && product.getStatus().intValue() == 1) {// 该商品存在且在售
                 Cart cartItem = new Cart();
                 cartItem.setUserId(userId);
                 cartItem.setProductId(productId);
                 // 这里商品第一次添加到购物车的时候可能出现Quantity数量大于Product的实际Stock的。所以展示CartVO的时候需要进行判断
                 cartItem.setQuantity(count);
                 // 新加入购物车的商品已经默认是选中状态
-
-
-
-
-
-
-
-
-
                 cartItem.setChecked(Const.Cart.CHECKED);
                 cartMapper.insert(cartItem);
             } else {// 如果该商品不存在
@@ -93,6 +84,7 @@ public class CartServiceImpl implements ICartService {
     @Override
     public ServerResponse<CartVO> deleteProduct(Integer userId, String productIds) {
         // 看一下productIds 如果为空会怎么样，是否是空指针异常。如果是的话，什么情况下会出现isEmpty的情况
+//        List<String> productList = Lists.newArrayList(productIds.split(","));
         List<String> productList = Splitter.on(",").splitToList(productIds);
         if (CollectionUtils.isEmpty(productList)) {
             return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.ILLEGAL_ARGUEMENT.getCode(),
@@ -150,7 +142,7 @@ public class CartServiceImpl implements ICartService {
 
                 // 包装CartProductVO的 商品属性
                 Product product = productMapper.selectByPrimaryKey(cartItem.getProductId());
-                if (product != null) {// 判断 购物车中该商品是否存在
+                if (product != null) {// 判断 购物车中该商品是否在商品区中真实存在
                     cartProductVO.setProductMainImage(product.getMainImage());
                     cartProductVO.setProductName(product.getName());
                     cartProductVO.setProductSubtitle(product.getSubtitle());

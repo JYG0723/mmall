@@ -27,8 +27,8 @@ public class DateTimeUtil {
         DateTime dateTime = dateTimeFormatter.parseDateTime(dateTimeStr);
         // 根据dateTime然后初始化一个含有时间dateTimeStr的Date
         return dateTime.toDate();
+    }
 
-}
     public static String dateToStr(Date date, String formatStr) {
         if (date == null) {
             return StringUtils.EMPTY;

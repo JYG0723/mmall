@@ -202,6 +202,7 @@ public class ProductManageController {
 
     /**
      * 富文本图片的上传
+     * 和普通的文件上传Service层调用一致。只是Controller层的返回参数不同
      *
      * @param httpSession        session
      * @param multipartFile      上传的文件
@@ -250,6 +251,5 @@ public class ProductManageController {
             return resultMap;
         }
     }
-
 
 }

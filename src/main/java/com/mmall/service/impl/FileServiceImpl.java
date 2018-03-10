@@ -56,6 +56,7 @@ public class FileServiceImpl implements IFileService {
         try {
             // 将接收到的文件内容[传输]到给定的目标文件
             file.transferTo(targetFile);
+            // TODO 上传到FTP服务器
             // 将文件上传到FTP服务器，此时targetFile的内容已被填充
             FTPUtil.uploadFile(Lists.newArrayList(targetFile));
             // upload文件夹下的文件删除掉，upload空文件夹可以保留
