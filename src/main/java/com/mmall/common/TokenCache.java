@@ -23,7 +23,7 @@ public class TokenCache {
     private static LoadingCache<String, String> localCache = CacheBuilder.newBuilder()
             .initialCapacity(1000) // 缓存的初始容量
             .maximumSize(10000) // 缓存的最大容量,超过这个容量Guava的Cache会使用LRU算法(最近最少使用)来移除缓存项。
-            .expireAfterAccess(12, TimeUnit.HOURS)
+            .expireAfterAccess(12, TimeUnit.HOURS) // 有效期，12 - TimeUnit.HOURS[小时]
             // 默认的数据加载实现,当调用get取值的时候(43行代码处),如果key没有对应的值,就调用这个方法进行加载.
             .build(new CacheLoader<String, String>() {
                 @Override
@@ -53,6 +53,7 @@ public class TokenCache {
 
     /**
      * 一次成功修改密码之后，使该token失效
+     *
      * @param key
      */
     public static void removeKey(String key) {

@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 
 /**
- * @作者: Ji YongGuang.
- * @修改时间: 19:26 2017/11/6.
- * @功能描述:
+ * @author Ji YongGuang.
+ * @date 19:26 2017/11/6.
  */
 @Controller
 @RequestMapping(value = "/user/")
@@ -31,7 +30,7 @@ public class UserController {
      * @param username    用户名
      * @param password    密码
      * @param httpSession session
-     * @return
+     * @return ServerResponse<User>
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
@@ -39,7 +38,7 @@ public class UserController {
         ServerResponse<User> serverResponse = iUserService.login(username, password);
         // Controller 层需要判断一下 Service 返回对象的状态即success或error
         if (serverResponse.isSuccess()) {
-            // 有管理员和用户两种，类型较少且明确根本不用描述 偷个懒常量类
+            // 有管理员和用户两种，类型较少且明确根本不用描述 偷个懒常量类CURRENT_USER
             httpSession.setAttribute(Const.CURRENT_USER, serverResponse.getData());
         }
         return serverResponse;
@@ -54,7 +53,7 @@ public class UserController {
 
     @RequestMapping(value = "register.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<String> register(User user) {
+    public ServerResponse register(User user) {
         return iUserService.register(user);
     }
 
@@ -64,19 +63,19 @@ public class UserController {
      *
      * @param str  输入的文本
      * @param type email/username
-     * @return 参数的实时校验
+     * @return ServerResponse<String>
      */
     @RequestMapping(value = "check_valid.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<String> checkValid(String str, String type) {
+    public ServerResponse checkValid(String str, String type) {
         return iUserService.checkValid(str, type);
     }
 
     /**
-     * 获取登录简要用户的信息
+     * 获取登录用户简要的信息
      *
-     * @param httpSession
-     * @return
+     * @param httpSession session
+     * @return ServerResponse<User>
      */
     @RequestMapping(value = "get_user_info.do", method = RequestMethod.POST)
     @ResponseBody
@@ -111,12 +110,14 @@ public class UserController {
     @RequestMapping(value = "forget_check_answer.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> forgetCheckAnswer(String username, String question, String answer) {
+        // [忘记密码] - 修改密码
         return iUserService.checkAnswer(username, question, answer);
     }
 
     @RequestMapping(value = "forget_resst_password.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
+        // 忘记密码 - [修改密码]
         return iUserService.forgetResetPassword(username, passwordNew, forgetToken);
     }
 
@@ -161,7 +162,7 @@ public class UserController {
     public ServerResponse<User> getInformation(HttpSession httpSession) {
         User currentUser = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(),"用户未登录,请登录");
+            return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
         return iUserService.getInformation(currentUser.getId());
     }

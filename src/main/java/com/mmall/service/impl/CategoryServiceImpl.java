@@ -87,21 +87,35 @@ public class CategoryServiceImpl implements ICategoryService {
         if (categoryId != null) {
             for (Category categoryItem :
                     categorySet) {
-                categoryList.add(categoryItem.getId());
+                categoryList.add(categoryItem.getId());// id
             }
         }
         return ServerResponse.createBySuccess(categoryList);
     }
 
+    /**
+     * 1. 入参很重要，多留意    统一收纳集合，当前需要遍历的结点id
+     * 2. 拿到当前查询的结点
+     * 3. 添加到Category集合中 再将其儿子结点遍历添加到集合中
+     *
+     * @param categorySet
+     * @param categoryId
+     * @return
+     */
     // 递归函数，算出子节点.这里直接调用set集合就可以排重
     private Set<Category> findChildCategory(Set<Category> categorySet, Integer categoryId) {
         Category category = categoryMapper.selectByPrimaryKey(categoryId);
         if (category != null) {
             categorySet.add(category);
         }
-        // mybatis对返回集合的处理是如果没有查到的话，不会返回一个null对象。如果是一些不可预知的方法需要做空判断，不然会报空指针异常
+        // mybatis对返回集合的处理是如果没有查到的话，不会返回一个null对象。只是一个被初始化过的空的集合size=0
+        // 如果是一些不可预知的方法需要做空判断，不然会报空指针异常
         List<Category> categoryList = categoryMapper.selectCategoryChildrenByParentId(categoryId);
+
+        // TODO 退出递归的空判断，该结点下是否有孩子结点。由于返回的集合是Mybatis返回的结果。查不出对象也不会为null只是size为0
+        // TODO 正常情况下，如果 categoryList 不是Mybatis返回的结果，而是其他情况，那么需要进行空判断。
         for (Category categoryItem : categoryList) {
+            // 这里foreach进行了递归跳出的判断。如果 categoryList 为空那么，该foreach就不会进来，最外层foreach跳出的时候该递归方法结束
             findChildCategory(categorySet, categoryItem.getId());
         }
         return categorySet;

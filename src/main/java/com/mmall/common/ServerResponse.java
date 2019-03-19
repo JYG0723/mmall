@@ -20,7 +20,7 @@ public class ServerResponse<T> implements Serializable {
 
     /**
      * 构造方法私有化，外部不能new它。然后开放供外部使用的public方法。
-     * 多个构造方法，应对数据类型如果和msg类型相同出现的方法调用错误的情况，
+     * 多个构造方法，应对不同需求环境，而且可以防止数据类型如果和msg类型相同 出现的方法调用错误的情况，
      * 而且public方法调用起来也比较优雅简明通用，static方法调用也方便且这样一来一看参数就知道如何调用。
      */
     private ServerResponse(int status) {

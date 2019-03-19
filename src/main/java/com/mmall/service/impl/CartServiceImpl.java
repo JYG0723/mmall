@@ -17,7 +17,6 @@ import com.mmall.vo.CartVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -46,7 +45,7 @@ public class CartServiceImpl implements ICartService {
         Cart cart = cartMapper.selectCartByUserIdProductId(userId, productId);
         if (cart == null) {// 购物车中还没有加入该商品
             Product product = productMapper.selectByPrimaryKey(productId);
-            if (product != null && product.getStatus().intValue() == 1) {
+            if (product != null && product.getStatus().intValue() == 1) {// 该商品存在且在售
                 Cart cartItem = new Cart();
                 cartItem.setUserId(userId);
                 cartItem.setProductId(productId);
@@ -85,6 +84,7 @@ public class CartServiceImpl implements ICartService {
     @Override
     public ServerResponse<CartVO> deleteProduct(Integer userId, String productIds) {
         // 看一下productIds 如果为空会怎么样，是否是空指针异常。如果是的话，什么情况下会出现isEmpty的情况
+//        List<String> productList = Lists.newArrayList(productIds.split(","));
         List<String> productList = Splitter.on(",").splitToList(productIds);
         if (CollectionUtils.isEmpty(productList)) {
             return ServerResponse.createByErrorCodeMessage(ResponseCodeEnum.ILLEGAL_ARGUEMENT.getCode(),
@@ -142,7 +142,7 @@ public class CartServiceImpl implements ICartService {
 
                 // 包装CartProductVO的 商品属性
                 Product product = productMapper.selectByPrimaryKey(cartItem.getProductId());
-                if (product != null) {// 判断 购物车中该商品是否存在
+                if (product != null) {// 判断 购物车中该商品是否在商品区中真实存在
                     cartProductVO.setProductMainImage(product.getMainImage());
                     cartProductVO.setProductName(product.getName());
                     cartProductVO.setProductSubtitle(product.getSubtitle());

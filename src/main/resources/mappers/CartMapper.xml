@@ -157,7 +157,7 @@
         </if>
     </update>
     <!-- IFNULL Mybatis的内置函数，如果sql语句正常查询没有查到，返回的结果是NULL的话，会用0进行替换，返回0-->
-    <select id="getCartProductCount" resultType="int" parameterType="int">
+    <select id="getCartProductCount" resultType="java.lang.Integer" parameterType="int">
         SELECT IFNULL(sum(quantity), 0) AS count
         FROM mmall_cart
         WHERE user_id = #{userId}
